@@ -1,0 +1,10 @@
+streamlit==1.31.0
+pandas
+numpy
+plotly
+scikit-learn
+yfinance
+streamlit-option-menu
+st-aggrid
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
