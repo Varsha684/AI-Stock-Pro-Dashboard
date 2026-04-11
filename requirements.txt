@@ -1,9 +1,5 @@
 streamlit
-pandas
-numpy
-plotly
-scikit-learn
 yfinance
-streamlit-option-menu
-st-aggrid
-torch --index-url https://download.pytorch.org/whl/cpu
+plotly
+torch
+scikit-learn
