@@ -23,7 +23,9 @@ Is dashboard ko **Glassmorphism** design aur premium colors ke sath banaya gaya 
 * **Visuals:** Plotly Graph Objects
 
 ## 🌐 Live Demo
-*App Live Link:* [Paste your Streamlit URL here]
+*App Live Link:* ## 🌐 Live Demo
+## 🌐 Live Demo
+[🚀 Click here to open Live Dashboard](https://aapka-streamlit-link-yahan-daalein.streamlit.app))**
 
 ## 💻 How to Run Locally
 1. Is repository ko clone karein.
