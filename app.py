@@ -7,8 +7,8 @@ from sklearn.preprocessing import MinMaxScaler
 import yfinance as yf  
 
 from streamlit_option_menu import option_menu
-from st_aggrid import AgGrid, GridOptionsBuilder
 
+# Yahan se AgGrid hata diya hai taaki error na aaye
 from src.model import MyLSTMModel
 
 # --- 1. PAGE SETUP & GLASSMORPHISM CSS ---
@@ -136,11 +136,8 @@ if selected_tab == "Live Market AI":
     )
     st.plotly_chart(fig, use_container_width=True)
 
-    # Screen ko do hisso me baantna tables ke liye
     col_left, col_right = st.columns(2)
-    
     with col_left:
-        # 3. FUTURE PREDICTIONS TABLE 
         st.markdown(f"### 🔮 AI Predicted Prices")
         prediction_df = pd.DataFrame({
             "Date": future_dates.strftime('%Y-%m-%d'),
@@ -149,7 +146,6 @@ if selected_tab == "Live Market AI":
         st.dataframe(prediction_df, use_container_width=True, height=300)
 
     with col_right:
-        # 4. RECENT RAW DATA TABLE (Wapas add kiya gaya)
         st.markdown(f"### 📊 Recent Raw Data")
         recent_raw = data[['Date', 'Open', 'High', 'Low', 'Close', 'Volume']].tail(10).sort_values(by='Date', ascending=False)
         recent_raw['Date'] = recent_raw['Date'].dt.strftime('%Y-%m-%d')
@@ -157,20 +153,17 @@ if selected_tab == "Live Market AI":
 
 elif selected_tab == "Raw Data Analytics":
     st.markdown(f"### 📊 Deep Analytics for {selected_stock_name}")
-    st.caption("Interact with the table below: Filter, sort, or export data like a Pro.")
+    st.caption("High-speed data interaction enabled.")
     
     display_df = data[['Date', 'Open', 'High', 'Low', 'Close', 'Volume']].tail(100).sort_values(by='Date', ascending=False)
     display_df['Date'] = display_df['Date'].dt.strftime('%Y-%m-%d')
     for col in ['Open', 'High', 'Low', 'Close']:
         display_df[col] = display_df[col].round(2)
 
-    gb = GridOptionsBuilder.from_dataframe(display_df)
-    gb.configure_pagination(paginationAutoPageSize=True)
-    gb.configure_side_bar() 
-    gridOptions = gb.build()
-
-    AgGrid(display_df, gridOptions=gridOptions, theme='alpine', height=500, fit_columns_on_grid_load=True)
+    # Yahan AgGrid ko hata kar simple st.dataframe daal diya hai
+    st.dataframe(display_df, use_container_width=True, height=500)
 
 elif selected_tab == "Model Settings":
     st.markdown("### 🧠 AI Engine Architecture")
     st.info("Current Model: Long Short-Term Memory (LSTM) Neural Network")
+    st.write("Model features: Input Size(1), Hidden Size(32), Layers(1)")
