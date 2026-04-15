@@ -77,6 +77,12 @@ def load_live_data(ticker):
 
 data = load_live_data(stock_symbol)
 
+# --- SAFETY CHECK ---
+if data.empty:
+    st.warning(f"⚠️ Yahoo Finance is temporarily limiting requests for {selected_stock_name}. Please wait 5-10 minutes and refresh the page.")
+    st.info("Tip: Try selecting a different stock (like Apple or Tesla) from the sidebar to see if it works.")
+    st.stop() # App yahan ruk jayegi crash hone ki jagah
+
 model = MyLSTMModel(1, 32, 1, 1)
 try:
     model.load_state_dict(torch.load('lstm_stock_model.pth', map_location=torch.device('cpu')))
