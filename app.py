@@ -71,7 +71,8 @@ seq_length = 10
 # --- 4. CORE LOGIC ---
 @st.cache_data 
 def load_live_data(ticker):
-    data = yf.download(ticker, start='2020-01-01', end=pd.Timestamp.today().strftime('%Y-%m-%d'))
+    # 'auto_adjust=True' aur 'multi_level_download=False' se data simple rehta hai
+    data = yf.download(ticker, start='2020-01-01', end=pd.Timestamp.today().strftime('%Y-%m-%d'), auto_adjust=True, multi_level_download=False)
     data.reset_index(inplace=True)
     return data
 
@@ -108,8 +109,12 @@ scaler.fit(data['Close'].values.reshape(-1, 1))
 future_prices = get_future_predictions(model, scaler, data, seq_length, days_to_predict)
 
 currency = "₹" if ".NS" in stock_symbol else "$"
-current_price = float(np.asarray(data['Close'])[-1])
-predicted_tomorrow = float(future_prices[0][0])
+# Check kijiye ki data khali toh nahi
+if not data.empty:
+    current_price = float(data['Close'].iloc[-1])
+else:
+    st.error("No data found for this stock symbol.")
+    st.stop()predicted_tomorrow = float(future_prices[0][0])
 price_change = predicted_tomorrow - current_price
 change_percent = (price_change / current_price) * 100
 
