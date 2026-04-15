@@ -71,8 +71,13 @@ seq_length = 10
 # --- 4. CORE LOGIC ---
 @st.cache_data 
 def load_live_data(ticker):
-    # 'auto_adjust=True' aur 'multi_level_download=False' se data simple rehta hai
-    data = yf.download(ticker, start='2020-01-01', end=pd.Timestamp.today().strftime('%Y-%m-%d'), auto_adjust=True, multi_level_download=False)
+    # Bina kisi extra argument ke data download karein
+    data = yf.download(ticker, start='2020-01-01', end=pd.Timestamp.today().strftime('%Y-%m-%d'))
+    
+    # Agar column double-level ka aata hai, toh use single level mein badal dein
+    if isinstance(data.columns, pd.MultiIndex):
+        data.columns = data.columns.get_level_values(0)
+        
     data.reset_index(inplace=True)
     return data
 
