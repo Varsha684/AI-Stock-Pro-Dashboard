@@ -114,7 +114,9 @@ if not data.empty:
     current_price = float(data['Close'].iloc[-1])
 else:
     st.error("No data found for this stock symbol.")
-    st.stop()predicted_tomorrow = float(future_prices[0][0])
+    st.stop()
+
+predicted_tomorrow = float(future_prices[0][0])
 price_change = predicted_tomorrow - current_price
 change_percent = (price_change / current_price) * 100
 
